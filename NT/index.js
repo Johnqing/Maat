@@ -1,5 +1,7 @@
 var fs = require('fs');
 var path = require('path');
+var md5 = require('../lib/until').md5;
+
 (function(root, factory){
 	if(typeof exports === 'object' && exports){
 		// commonjs
@@ -112,10 +114,13 @@ var path = require('path');
 	function _getCache(id){
 
 		var tmp = getTmp(id);
-
 		var cache = _cache[id];
 		// 有缓存直接返回
-		if(cache) return cache;
+		if(cache){
+			if(_cache[id+'_md5'] === md5(tmp)){
+				return cache;
+			}
+		}
 		// 判断如果没有document，则为非浏览器环境
 		if(!globle.document){
 			return NT.compile(id, tmp);
@@ -232,7 +237,10 @@ var path = require('path');
 			return _debug(e);
 		}
 		// id存在就创建缓存
-		id && (_cache[id] = cache);
+		if(id){
+			_cache[id] = cache;
+			_cache[id+'_md5'] = md5(source);
+		}
 
 		return cache;
 

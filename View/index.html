@@ -1,3 +1,24 @@
 <%= file='../header.html' %>
-<div><%= title%></div>
+<div id="container">
+	<% for(var i=0; i<jobs.length; i++){ %>
+		<div class="list">
+			<div class="fl">
+				<div class="h3"><a href="#"><%= jobs[i].title%></a><span class="c9">[<%= jobs[i].city%>]</span></div>
+				<span><em class="c7">月薪：</em><%= jobs[i].pay%></span>
+				<span><em class="c7">经验：</em> <%= jobs[i].exp%>年</span>
+				<span><em class="c7">最低学历：</em><%= jobs[i].education%></span>
+				<span><em class="c7 block">职位诱惑：</em><%= jobs[i].tempt%></span>
+				<span class="block"><%= jobs[i].time%></span>
+			</div>
+			<div class="fr">
+				<div class="h3"><a href="#"><%= jobs[i].company%></a></div>
+				<span><em class="c7">领域：</em> <%= jobs[i].territory%></span>
+				<span><em class="c7">创始人：</em><%= jobs[i].originator%></span>
+				<span><em class="c7">阶段：</em> <%= jobs[i].stage%></span>
+				<span><em class="c7">规模：</em><%= jobs[i].scale%>人</span>
+				<div class="companyTags"><%= jobs[i].welfare%></div>
+			</div>
+		</div>
+	<% } %>
+</div>
 <%= file='../footer.html' %>
