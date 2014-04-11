@@ -18,6 +18,7 @@ var contentTypes = require('./config/contentTypes');
  * @returns {{}}
  */
 function queryParse(query){
+	if(!query) return {};
 	var queryStr = query;
 	var queryArr = queryStr.split('&');
 	var queryObj = {};
