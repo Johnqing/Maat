@@ -49,11 +49,9 @@ var server = {
 			var _data = '';
 
 			req.on('data', function(chunk){
-				console.log(chunk);
 				_data += chunk;
 			}).on('end', function(){
-				req.post = query.parse(_data);
-
+				req.maatDate = query.parse(_data);
 				server.handle(req, res);
 
 			})
@@ -69,12 +67,14 @@ var server = {
 	 */
 	handle: function(req, res){
 		var url = URL.parse(req.url);
+		req.maatDate = req.method.toLocaleLowerCase() == 'get' ? queryParse(url.query) : req.maatDate;
 
 		var pathnameArray = url.pathname.substring(1).split('/');
 		if(!pathnameArray.length) return;
 		var ctName = pathnameArray[0] || 'index';
 		var action = pathnameArray[1] || 'index';
 		// 没有这个controller时就按静态文件处理
+
 		var ct = new CT(req, res);
 		if(!controllerList[ctName]){
 			server.static(ct, req, res);
@@ -87,8 +87,7 @@ var server = {
 			ct.h500('Error: controller "' + ctName + '" without action "' + action + '"');
 			return
 		}
-
-		controllerList[ctName][action].call(ct, queryParse(url.query));
+		controllerList[ctName][action].call(ct);
 	},
 	/**
 	 * 静态文件处理
