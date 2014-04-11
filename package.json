@@ -1,0 +1,18 @@
+{
+	"name": "maat",
+	"version": "0.0.1",
+	"readmeFilename": "README.md",
+	"description": "Nodejs框架",
+	"homepage": "https://github.com/Johnqing/Maat",
+	"repository": "https://github.com/Johnqing/Maat",
+	"keywords": [],
+	"main": "./app.js",
+	"dependencies": {
+
+	},
+	"devDependencies": {
+
+	},
+	"optionalDependencies": {},
+	"license": "BSD"
+}
