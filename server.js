@@ -12,7 +12,26 @@ var config = require('./config.js');
 var CT = require('./lib/controller.js');
 var contentTypes = require('./config/contentTypes');
 
+/**
+ * query 解析
+ * @param query
+ * @returns {{}}
+ */
+function queryParse(query){
+	var queryStr = query;
+	var queryArr = queryStr.split('&');
+	var queryObj = {};
 
+	queryArr.forEach(function(item){
+		var qArr = item.split('=');
+		queryObj[qArr[0]] = qArr[1];
+	});
+	return queryObj;
+}
+/**
+ * 服务器配置
+ * @type {{run: run, handle: handle, static: static}}
+ */
 var server = {
 	run: function(port){
 		// 启动时，设置controller
@@ -49,6 +68,7 @@ var server = {
 	 */
 	handle: function(req, res){
 		var url = URL.parse(req.url);
+
 		var pathnameArray = url.pathname.substring(1).split('/');
 		if(!pathnameArray.length) return;
 		var ctName = pathnameArray[0] || 'index';
@@ -67,7 +87,7 @@ var server = {
 			return
 		}
 
-		controllerList[ctName][action].call(ct);
+		controllerList[ctName][action].call(ct, queryParse(url.query));
 	},
 	/**
 	 * 静态文件处理
