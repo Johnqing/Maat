@@ -11,12 +11,12 @@ var config = require('./config');
  */
 var render = function(viewName, data){
 	if(!viewName){
-		this.h500('Error:viewName is null!');
+		this.h500('Error: Please set the rendering template!');
 		return
 	}
 
 	if(typeof data != 'object'){
-		this.h500('Error: Template data type is not Object !');
+		this.h500('Error: The lack of template data	!');
 		return
 	}
 
