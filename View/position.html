@@ -1,16 +1,22 @@
 <%= file='../header.html' %>
 <div id="container">
-	<input type="text"/>
-	<input type="text"/>
-	<input type="text"/>
-	<input type="text"/>
-	<input type="text"/>
-	<input type="text"/>
-	<input type="text"/>
-	<input type="text"/>
-	<input type="text"/>
-	<input type="text"/>
-	<input type="text"/>
-	<input type="text"/>
+	<form action="/corpPosition/up" method="post">
+		<ul>
+			<li>职位名称：<input type="text" name="title"/></li>
+			<li>所在地：<input type="text" name="city"/></li>
+			<li>月薪：<input type="text" name="pay"/></li>
+			<li>经验：<input type="text" name="exp"/>年</li>
+			<li>最低学历：<input type="text" name="education"/></li>
+			<li>职位诱惑：<input type="text" name="tempt"/></li>
+			<li>公司名称：<input type="text" name="company"/></li>
+			<li>公司网址：<input type="text" name="website"/></li>
+			<li>所属领域：<input type="text" name="territory"/></li>
+			<li>创始人：<input type="text" name="originator"/></li>
+			<li>阶段：<input type="text" name="stage"/></li>
+			<li>规模：<input type="text" name="scale"/></li>
+			<li>福利：<input type="text" name="welfare"/></li>
+			<li><input type="submit" value="发布"/></li>
+		</ul>
+	</form>
 </div>
 <%= file='../footer.html' %>

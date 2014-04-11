@@ -4,5 +4,9 @@
 exports.create = function(){
 	this.render('position', {
 		title: '发布职位'
-	})
+	});
+}
+
+exports.up = function(){
+	console.log();
 }
