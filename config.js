@@ -5,5 +5,6 @@ module.exports = {
 	controller: {
 		URI: null
 	},
-	staticDir: 'static'
+	staticDir: 'static',
+	viewDir: 'View'
 }

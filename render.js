@@ -3,9 +3,14 @@
  */
 var path = require('path');
 var NT = require('./NT/index');
-
+var config = require('./config');
+/**
+ * 渲染页面
+ * @param viewName
+ * @param data
+ */
 var render = function(viewName, data){
-	var filePath = path.join(__dirname, 'View', viewName + '.html');
+	var filePath = path.join(__dirname, config.viewDir, viewName + '.html');
 	try{
 		var output = NT.tpl(filePath, data);
 	} catch (err){
@@ -16,4 +21,4 @@ var render = function(viewName, data){
 	this.res.end(output);
 }
 
-module.exports = render
+module.exports = render;
