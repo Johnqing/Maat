@@ -10,6 +10,16 @@ var config = require('./config');
  * @param data
  */
 var render = function(viewName, data){
+	if(!viewName){
+		this.h500('Error:viewName is null!');
+		return
+	}
+
+	if(typeof data != 'object'){
+		this.h500('Error: Template data type is not Object !');
+		return
+	}
+
 	var filePath = path.join(__dirname, config.viewDir, viewName + '.html');
 	try{
 		var output = NT.tpl(filePath, data);
