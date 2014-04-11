@@ -1,10 +1,13 @@
 /**
- * Created by liuqing on 14-4-10.
+ * 配置文件
+ * @type {{controller: {URI: null}, staticDir: string, viewDir: string}}
  */
-module.exports = {
+var config = {
 	controller: {
 		URI: null
 	},
 	staticDir: 'static',
 	viewDir: 'View'
 }
+
+module.exports = config;
