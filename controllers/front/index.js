@@ -3,5 +3,7 @@
  */
 
 exports.index = function(){
-	console.log('index');
+	this.render('index', {
+		title: '首页'
+	});
 }

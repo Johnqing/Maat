@@ -3,12 +3,14 @@
  */
 var http = require('http');
 var path = require('path');
+var fs = require('fs');
 var query = require('querystring');
-var parseURL = require('url').parse;
+var URL = require('url');
 var routes = require('./lib/routes');
 var controllerList = {};
-var config = require('./config.js')
-var contentTypes = require('./config/contentTypes')
+var config = require('./config.js');
+var CT = require('./lib/controller.js');
+var contentTypes = require('./config/contentTypes');
 
 
 var server = {
@@ -18,7 +20,6 @@ var server = {
 			ctList.forEach(function(item){
 				var baseName = path.basename(item, '.js');
 				controllerList[baseName] = require(item);
-				console.log(item)
 			});
 		});
 		// 默认80端口
@@ -47,17 +48,26 @@ var server = {
 	 * @param res
 	 */
 	handle: function(req, res){
-		var url = parseURL(req.url);
+		var url = URL.parse(req.url);
 		var pathnameArray = url.pathname.substring(1).split('/');
 		if(!pathnameArray.length) return;
-		var ct = pathnameArray[0] || 'index';
+		var ctName = pathnameArray[0] || 'index';
 		var action = pathnameArray[1] || 'index';
 		// 没有这个controller时就按静态文件处理
-		if(!controllerList[ct]){
-			server.static(req, res)
+		var ct = new CT(req, res);
+		if(!controllerList[ctName]){
+			server.static(ct, req, res);
 			return;
 		}
-		controllerList[ct][action](req, res);
+		/**
+		 * 访问不存在的action，直接报错
+		 */
+		if(!controllerList[ctName][action]){
+			ct.h500('Error: controller "' + ctName + '" without action "' + action + '"');
+			return
+		}
+
+		controllerList[ctName][action].call(ct);
 	},
 	/**
 	 * 静态文件处理
@@ -65,18 +75,20 @@ var server = {
 	 * @param res
 	 * @param filePath
 	 */
-	static: function(req, res, filePath){
+	static: function(ct, req, res, filePath){
 		if(!filePath){
-			filePath = path.join(__dirname, config.staticDir, url.parse(req.url).pathname);
+			filePath = path.join(__dirname, config.staticDir, URL.parse(req.url).pathname);
 		}
 
-		path.exists(filePath, function(exists){
+		fs.exists(filePath, function(exists){
 			if(!exists){
+				ct.h404();
 				return;
 			}
 
 			fs.readFile(filePath, "binary", function(err, file){
 				if(err){
+					ct.h500(err);
 					return;
 				}
 
