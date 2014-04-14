@@ -8,5 +8,5 @@ exports.create = function(){
 }
 
 exports.up = function(){
-	console.log();
+	this.redirect('http://127.0.0.1:1234/corpPosition/create');
 }
